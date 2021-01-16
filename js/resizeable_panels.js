@@ -1,19 +1,41 @@
+/* splitter global variables */
+let currentSplitter = null;
+let splitterWidth = 8;
+
+/* panel global variables */
+let currentLeft = null;
+let currentRight = null;
+
 window.onload = function(){
     setPanels()
 }
-
 
 window.onresize = function(){
     setPanels()
 }
 
-/* splitter global variables */
-let currentSplitter = null;
-let splitterWidth = 4;
+window.onmousemove = function(e){
+    if(currentSplitter != null){
+        let rightW = 100 - (e.x / window.innerWidth) * 100;
+        let leftW = (e.x / window.innerWidth) * 100;
 
-/* panel global variables */
-let currentLeft = null;
-let currentRight = null;
+        currentRight.style.width = rightW + "%";
+        currentLeft.style.width = leftW + "%";
+        updateSplitter();
+    }
+    
+}
+
+window.onmouseup = function(){
+    if(currentSplitter != null){
+        currentSplitter = null;
+    }
+}
+
+function updateSplitter(){
+    let rect = currentRight.getBoundingClientRect();
+    currentSplitter.style.left = (rect.x - splitterWidth / 2) + "px";
+}
 
 function setPanels(){
     let container = document.getElementsByClassName("panel-container")[0];
@@ -43,7 +65,7 @@ function setPanels(){
                 splitter.onmousedown = function(){
                     currentLeft = left;
                     currentRight = right;
-                    console.log(splitter);
+                    currentSplitter = splitter;
                 }
 
 
