@@ -11,7 +11,7 @@ window.onload = function(){
 }
 
 window.onresize = function(){
-    setPanels();
+    updateHorizontalSplitters();
 }
 
 window.onmousemove = function(e){
@@ -22,10 +22,10 @@ window.onmousemove = function(e){
 
         let rightW = maxWidth - ((e.x - leftRect.x) / window.innerWidth) * 100;
         let leftW = ((e.x - leftRect.x) / window.innerWidth) * 100;
-        console.log(leftW + "  " + rightW);
+        
         currentRight.style.width = rightW + "%";
         currentLeft.style.width = leftW + "%";
-        updateSplitter();
+        updateCurrentSplitter();
     }
     
 }
@@ -36,7 +36,7 @@ window.onmouseup = function(){
     }
 }
 
-function updateSplitter(){
+function updateCurrentSplitter(){
     let rect = currentRight.getBoundingClientRect();
     currentSplitter.style.left = (rect.x - splitterWidth / 2) + "px";
 }
@@ -50,10 +50,46 @@ function setPanels(){
     let horizontalPanels = document.getElementsByClassName("panel-horizontal");
 
     if(horizontalPanels.length >= 2){
-        //console.log(horizontalPanels.length);
         for(let i = 0; i < horizontalPanels.length; i++){
             horizontalPanels[i].style.height = "100%"
             horizontalPanels[i].style.width = 100 / horizontalPanels.length + "%";
+
+            let rect = horizontalPanels[i].getBoundingClientRect();
+
+            if(i > 0){
+                let splitter = document.createElement("div");
+                splitter.classList.add("panel-splitter");
+                
+                splitter.style = "background:red;  width: " + splitterWidth + "px; height: 100%; position: absolute;" + 
+                "left: " + (rect.x - splitterWidth / 2) + "px; top: 0px;"
+                
+                let left = horizontalPanels[i - 1];
+                let right = horizontalPanels[i];
+                splitter.onmousedown = function(){
+                    currentLeft = left;
+                    currentRight = right;
+                    currentSplitter = splitter;
+                }
+
+
+                container.append(splitter);
+            }
+            
+
+        }
+    }
+}
+
+
+function updateHorizontalSplitters(){
+    let container = document.getElementsByClassName("panel-container")[0];
+
+    removeOldSpliters(container);
+
+    let horizontalPanels = document.getElementsByClassName("panel-horizontal");
+
+    if(horizontalPanels.length >= 2){
+        for(let i = 0; i < horizontalPanels.length; i++){
 
             let rect = horizontalPanels[i].getBoundingClientRect();
             //console.log(rect);
