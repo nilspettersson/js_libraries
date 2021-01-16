@@ -3,12 +3,9 @@
     margin: 0px;
 }
 
-/*.panel-container{
-    display: flex;
-    width: 100vw;
-    height: 100vh;
-    background: red;
-}*/
+.panel-splitter:hover{
+ cursor: e-resize;
+}
 
 .panel-vertical{
     background: green;
