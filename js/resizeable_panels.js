@@ -16,9 +16,13 @@ window.onresize = function(){
 
 window.onmousemove = function(e){
     if(currentSplitter != null){
-        let rightW = 100 - (e.x / window.innerWidth) * 100;
-        let leftW = (e.x / window.innerWidth) * 100;
+        let rightRect = currentRight.getBoundingClientRect();
+        let leftRect = currentLeft.getBoundingClientRect();
+        let maxWidth = ((rightRect.width + leftRect.width) / window.innerWidth) * 100;
 
+        let rightW = maxWidth - ((e.x - leftRect.x) / window.innerWidth) * 100;
+        let leftW = ((e.x - leftRect.x) / window.innerWidth) * 100;
+        console.log(leftW + "  " + rightW);
         currentRight.style.width = rightW + "%";
         currentLeft.style.width = leftW + "%";
         updateSplitter();
@@ -82,6 +86,5 @@ function removeOldSpliters(parent){
     let oldSplitters = parent.getElementsByClassName("panel-splitter");
     for(let i = oldSplitters.length - 1; i >= 0; i--){
         parent.removeChild(oldSplitters[i]);
-        
     }
 }
