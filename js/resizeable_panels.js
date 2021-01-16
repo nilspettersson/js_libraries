@@ -7,11 +7,11 @@ let currentLeft = null;
 let currentRight = null;
 
 window.onload = function(){
-    setPanels()
+    setPanels();
 }
 
 window.onresize = function(){
-    setPanels()
+    setPanels();
 }
 
 window.onmousemove = function(e){
@@ -46,12 +46,13 @@ function setPanels(){
     let horizontalPanels = document.getElementsByClassName("panel-horizontal");
 
     if(horizontalPanels.length >= 2){
+        //console.log(horizontalPanels.length);
         for(let i = 0; i < horizontalPanels.length; i++){
             horizontalPanels[i].style.height = "100%"
             horizontalPanels[i].style.width = 100 / horizontalPanels.length + "%";
 
             let rect = horizontalPanels[i].getBoundingClientRect();
-            console.log(rect);
+            //console.log(rect);
 
             if(i > 0){
                 let splitter = document.createElement("div");
@@ -79,7 +80,7 @@ function setPanels(){
 
 function removeOldSpliters(parent){
     let oldSplitters = parent.getElementsByClassName("panel-splitter");
-    for(let i = 0; i < oldSplitters.length; i++){
+    for(let i = oldSplitters.length - 1; i >= 0; i--){
         parent.removeChild(oldSplitters[i]);
         
     }
