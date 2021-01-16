@@ -1,0 +1,18 @@
+*{
+    padding: 0px;
+    margin: 0px;
+}
+
+/*.panel-container{
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    background: red;
+}*/
+
+.panel-vertical{
+    background: green;
+}
+.panel-horizontal{
+    background: hotpink;
+}  
