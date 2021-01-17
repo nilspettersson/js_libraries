@@ -7,7 +7,8 @@ let currentLeft = null;
 let currentRight = null;
 
 window.onload = function(){
-    setPanels();
+    let parent = document.getElementsByClassName("panel-horizontal")[0];
+    setPanels(parent);
 }
 
 window.onresize = function(){
@@ -51,14 +52,13 @@ function getChildPanels(parent){
     return children;
 }
 
-function setPanels(){
-    let container = document.getElementsByClassName("panel-container")[0];
-    container.style = "display: flex; width: 100vw; height: 100vh; position:relative;"
-
-    removeOldSpliters(container);
+function setPanels(parent){
     
-    let horizontalPanels = container.getElementsByClassName("panel-horizontal");
-    console.log(getChildPanels(container));
+    parent.style = "display: flex; width: 100vw; height: 100vh; position:relative;"
+
+    removeOldSpliters(parent);
+    
+    let horizontalPanels = getChildPanels(parent);
 
     if(horizontalPanels.length >= 2){
         for(let i = 0; i < horizontalPanels.length; i++){
@@ -82,7 +82,7 @@ function setPanels(){
                     currentSplitter = splitter;
                 }
 
-                container.append(splitter);
+                parent.append(splitter);
             }
             
         }
@@ -114,7 +114,7 @@ function setPanels(){
                 }
 
 
-                container.append(splitter);
+                parent.append(splitter);
             }
             
 
@@ -124,12 +124,13 @@ function setPanels(){
 }
 
 
+/*updates panel splitter on window resize*/
 function updateHorizontalSplitters(){
-    let container = document.getElementsByClassName("panel-container")[0];
+    let container = document.getElementsByClassName("panel-horizontal")[0];
 
     removeOldSpliters(container);
 
-    let horizontalPanels = document.getElementsByClassName("panel-horizontal");
+    let horizontalPanels = container.getElementsByClassName("panel-horizontal");
 
     if(horizontalPanels.length >= 2){
         for(let i = 0; i < horizontalPanels.length; i++){
