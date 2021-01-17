@@ -8,13 +8,24 @@ let currentRight = null;
 let currentParent = null;
 
 window.onload = function(){
-    let parent = document.getElementsByClassName("panel-horizontal")[0];
-    setPanels(parent, "horizontal");
+    let parent = document.getElementsByClassName("panel")[0];
+    if(parent.className.includes("panel-horizontal")){
+        setPanels(parent, "horizontal");
+    }
+    else if(parent.className.includes("panel-vertical")){
+        setPanels(parent, "vertical");
+    }
 }
 
 window.onresize = function(){
-    let parent = document.getElementsByClassName("panel-horizontal")[0];
-    updateHorizontalSplitters(parent, "horizontal");
+    let parent = document.getElementsByClassName("panel")[0];
+    if(parent.className.includes("panel-horizontal")){
+        updateHorizontalSplitters(parent, "horizontal");
+    }
+    else if(parent.className.includes("panel-vertical")){
+        updateHorizontalSplitters(parent, "vertical");
+    }
+    
 }
 
 window.onmousemove = function(e){
@@ -24,11 +35,8 @@ window.onmousemove = function(e){
         let parentRect = currentParent.getBoundingClientRect();
         let maxWidth = Math.round(((rightRect.width + leftRect.width) / parentRect.width) * 100);
 
-        //let rightW = maxWidth - ((e.x - leftRect.x) / window.innerWidth) * 100;
         let leftW = ((e.x - leftRect.x) / parentRect.width) * 100;
         let rightW = maxWidth - leftW;
-
-        console.log(leftW + "  " + rightW + "   " + maxWidth + "  " + e.x + "   " + parentRect.width);
         
         currentRight.style.width = rightW + "%";
         currentLeft.style.width = leftW + "%";
