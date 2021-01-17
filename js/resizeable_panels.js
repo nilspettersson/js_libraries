@@ -5,6 +5,7 @@ let splitterWidth = 8;
 /* panel global variables */
 let currentLeft = null;
 let currentRight = null;
+let currentParent = null;
 
 window.onload = function(){
     let parent = document.getElementsByClassName("panel-horizontal")[0];
@@ -19,10 +20,14 @@ window.onmousemove = function(e){
     if(currentSplitter != null){
         let rightRect = currentRight.getBoundingClientRect();
         let leftRect = currentLeft.getBoundingClientRect();
-        let maxWidth = ((rightRect.width + leftRect.width) / window.innerWidth) * 100;
+        let parentRect = currentParent.getBoundingClientRect();
+        let maxWidth = Math.round(((rightRect.width + leftRect.width) / parentRect.width) * 100);
 
-        let rightW = maxWidth - ((e.x - leftRect.x) / window.innerWidth) * 100;
-        let leftW = ((e.x - leftRect.x) / window.innerWidth) * 100;
+        //let rightW = maxWidth - ((e.x - leftRect.x) / window.innerWidth) * 100;
+        let leftW = ((e.x - leftRect.x) / parentRect.width) * 100;
+        let rightW = maxWidth - leftW;
+
+        console.log(leftW + "  " + rightW + "   " + maxWidth + "  " + e.x + "   " + parentRect.width);
         
         currentRight.style.width = rightW + "%";
         currentLeft.style.width = leftW + "%";
@@ -60,7 +65,7 @@ parentType: "horizontal" or "vertical"
 function setPanels(parent, parentType){
     parent.style.display = "flex";
     parent.style.position = "relative";
-    
+
     removeOldSpliters(parent);
     
     let panels = getChildPanels(parent);
@@ -85,6 +90,7 @@ function setPanels(parent, parentType){
                 splitter.onmousedown = function(){
                     currentLeft = left;
                     currentRight = right;
+                    currentParent = parent;
                     currentSplitter = splitter;
                 }
 
