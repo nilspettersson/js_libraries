@@ -13,7 +13,8 @@ window.onload = function(){
 }
 
 window.onresize = function(){
-    updateHorizontalSplitters();
+    let parent = document.getElementsByClassName("panel-horizontal")[0];
+    updateHorizontalSplitters(parent, "horizontal");
 }
 
 window.onmousemove = function(e){
@@ -46,12 +47,12 @@ function updateCurrentSplitter(){
     currentSplitter.style.left = (rect.x - splitterWidth / 2) + "px";
 }
 
-/* gets the child panels but ony one layer deep */
-function getChildPanels(parent){
+/* gets the children with class */
+function getChildPanels(parent, className){
     var children = [];
     for (var i = 0; i < parent.childNodes.length; i++) {
         if(parent.childNodes[i].nodeType == Node.ELEMENT_NODE){
-            if (parent.childNodes[i].className.includes("panel")) {
+            if (parent.childNodes[i].className.includes(className)) {
                 children.push(parent.childNodes[i]);
             }  
         }      
@@ -68,7 +69,7 @@ function setPanels(parent, parentType){
 
     removeOldSpliters(parent);
     
-    let panels = getChildPanels(parent);
+    let panels = getChildPanels(parent, "panel");
 
     if(panels.length >= 2 && parentType == "horizontal"){
         for(let i = 0; i < panels.length; i++){
@@ -94,7 +95,7 @@ function setPanels(parent, parentType){
                     currentSplitter = splitter;
                 }
 
-                parent.append(splitter);
+                document.getElementsByClassName("panel")[0].append(splitter);
             }
 
             if(panels[i].className.includes("panel-horizontal")){
@@ -141,19 +142,17 @@ function setPanels(parent, parentType){
 
 
 /*updates panel splitter on window resize*/
-function updateHorizontalSplitters(){
-    let container = document.getElementsByClassName("panel-horizontal")[0];
+function updateHorizontalSplitters(parent, parentType){
+    removeOldSpliters(parent);
 
-    removeOldSpliters(container);
+    let panels = getChildPanels(parent, "panel");
 
-    let horizontalPanels = container.getElementsByClassName("panel");
-    console.log(horizontalPanels);
-    if(horizontalPanels.length >= 2){
-        for(let i = 0; i < horizontalPanels.length; i++){
+    if(panels.length >= 2 && parentType == "horizontal"){
+        for(let i = 0; i < panels.length; i++){
 
-            let rect = horizontalPanels[i].getBoundingClientRect();
-            //console.log(rect);
+            let rect = panels[i].getBoundingClientRect();
 
+            //add splitters to panels.
             if(i > 0){
                 let splitter = document.createElement("div");
                 splitter.classList.add("panel-splitter");
@@ -161,25 +160,29 @@ function updateHorizontalSplitters(){
                 splitter.style = "background:red;  width: " + splitterWidth + "px; height: 100%; position: absolute;" + 
                 "left: " + (rect.x - splitterWidth / 2) + "px; top: 0px;"
                 
-                let left = horizontalPanels[i - 1];
-                let right = horizontalPanels[i];
+                let left = panels[i - 1];
+                let right = panels[i];
                 splitter.onmousedown = function(){
                     currentLeft = left;
                     currentRight = right;
+                    currentParent = parent;
                     currentSplitter = splitter;
                 }
 
+                document.getElementsByClassName("panel")[0].append(splitter);
+            }
 
-                container.append(splitter);
+            if(panels[i].className.includes("panel-horizontal")){
+                updateHorizontalSplitters(panels[i], "horizontal");
             }
             
-
         }
     }
 }
 
+
 function removeOldSpliters(parent){
-    let oldSplitters = parent.getElementsByClassName("panel-splitter");
+    let oldSplitters = getChildPanels(parent, "panel-splitter");
     for(let i = oldSplitters.length - 1; i >= 0; i--){
         parent.removeChild(oldSplitters[i]);
     }
