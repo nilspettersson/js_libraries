@@ -45,15 +45,16 @@ function updateCurrentSplitter(){
 function getChildPanels(parent){
     var children = [];
     for (var i = 0; i < parent.childNodes.length; i++) {
-        if (parent.childNodes[i].className == "panel-horizontal") {
-            children.push(parent.childNodes[i]);
-        }        
+        if(parent.childNodes[i].nodeType == Node.ELEMENT_NODE){
+            if (parent.childNodes[i].className.includes("panel")) {
+                children.push(parent.childNodes[i]);
+            }  
+        }      
     }
     return children;
 }
 
 function setPanels(parent){
-    
     parent.style = "display: flex; width: 100vw; height: 100vh; position:relative;"
 
     removeOldSpliters(parent);
@@ -130,8 +131,8 @@ function updateHorizontalSplitters(){
 
     removeOldSpliters(container);
 
-    let horizontalPanels = container.getElementsByClassName("panel-horizontal");
-
+    let horizontalPanels = container.getElementsByClassName("panel");
+    console.log(horizontalPanels);
     if(horizontalPanels.length >= 2){
         for(let i = 0; i < horizontalPanels.length; i++){
 
