@@ -21,10 +21,10 @@ window.onload = function(){
 window.onresize = function(){
     let parent = document.getElementsByClassName("panel")[0];
     if(parent.className.includes("panel-horizontal")){
-        updateHorizontalSplitters(parent, "horizontal");
+        updateSplitters(parent, "horizontal");
     }
     else if(parent.className.includes("panel-vertical")){
-        updateHorizontalSplitters(parent, "vertical");
+        updateSplitters(parent, "vertical");
     }
     
 }
@@ -37,7 +37,7 @@ window.onmousemove = function(e){
         let rightRect = currentRight.getBoundingClientRect();
         let leftRect = currentLeft.getBoundingClientRect();
         let parentRect = currentParent.getBoundingClientRect();
-        let maxWidth = Math.round(((rightRect.width + leftRect.width) / parentRect.width) * 100);
+        let maxWidth = /*Math.round*/(((rightRect.width + leftRect.width) / parentRect.width) * 100);
 
         let leftW = ((e.x - leftRect.x) / parentRect.width) * 100;
         let rightW = maxWidth - leftW;
@@ -50,10 +50,12 @@ window.onmousemove = function(e){
         let rightRect = currentRight.getBoundingClientRect();
         let leftRect = currentLeft.getBoundingClientRect();
         let parentRect = currentParent.getBoundingClientRect();
-        let maxHeight = Math.round(((rightRect.height + leftRect.height) / parentRect.height) * 100);
+        let maxHeight = /*Math.round*/(((rightRect.height + leftRect.height) / parentRect.height) * 100);
 
         let leftW = ((e.y - leftRect.y) / parentRect.height) * 100;
         let rightW = maxHeight - leftW;
+
+        console.log(leftW + "  " + rightW + " " + (leftW + rightW));
         
         currentRight.style.height = rightW + "%";
         currentLeft.style.height = leftW + "%";
@@ -69,8 +71,13 @@ window.onmouseup = function(){
 
 function updateCurrentSplitter(){
     let rect = currentRight.getBoundingClientRect();
-    currentSplitter.style.left = (rect.x - splitterWidth / 2) + "px";
-    currentSplitter.style.top = (rect.y - splitterWidth / 2) + "px";
+    if(currentSplitterType == "horizontal"){
+        currentSplitter.style.left = (rect.x - splitterWidth / 2) + "px";
+    }
+    else if(currentSplitterType == "vertical"){
+        currentSplitter.style.top = (rect.y - splitterWidth / 2) + "px";
+    }
+    
 }
 
 //gets the children with class
@@ -130,6 +137,9 @@ function setPanels(parent, parentType){
             if(panels[i].className.includes("panel-horizontal")){
                 setPanels(panels[i], "horizontal");
             }
+            else if(panels[i].className.includes("panel-vertical")){
+                setPanels(panels[i], "vertical");
+            }
             
         }
     }
@@ -167,6 +177,9 @@ function setPanels(parent, parentType){
             if(panels[i].className.includes("panel-horizontal")){
                 setPanels(panels[i], "horizontal");
             }
+            else if(panels[i].className.includes("panel-vertical")){
+                setPanels(panels[i], "vertical");
+            }
             
         }
     }
@@ -177,7 +190,7 @@ function setPanels(parent, parentType){
 
 
 /*updates panel splitter on window resize*/
-function updateHorizontalSplitters(parent, parentType){
+function updateSplitters(parent, parentType){
     removeOldSpliters(parent);
 
     let panels = getChildPanels(parent, "panel");
@@ -208,7 +221,47 @@ function updateHorizontalSplitters(parent, parentType){
             }
 
             if(panels[i].className.includes("panel-horizontal")){
-                updateHorizontalSplitters(panels[i], "horizontal");
+                updateSplitters(panels[i], "horizontal");
+            }
+            else if(panels[i].className.includes("panel-vertical")){
+                updateSplitters(panels[i], "vertical");
+            }
+            
+        }
+    }
+
+    else if(panels.length >= 2 && parentType == "vertical"){
+        for(let i = 0; i < panels.length; i++){
+            let rect = panels[i].getBoundingClientRect();
+
+            //add splitters to panels.
+            if(i > 0){
+                let splitter = document.createElement("div");
+                splitter.classList.add("panel-splitter");
+                splitter.classList.add("splitter-vertical");
+                
+                splitter.style = "background:red; height: " + splitterWidth + "px; width: 100%; position: absolute;" + 
+                "top: " + (rect.y - splitterWidth / 2) + "px; left: 0px;" +
+                "panel-splitter:hover{ cursor: e-resize; }";
+                
+                let left = panels[i - 1];
+                let right = panels[i];
+                splitter.onmousedown = function(){
+                    currentLeft = left;
+                    currentRight = right;
+                    currentParent = parent;
+                    currentSplitter = splitter;
+                    currentSplitterType = "vertical";
+                }
+
+                document.getElementsByClassName("panel")[0].append(splitter);
+            }
+
+            if(panels[i].className.includes("panel-horizontal")){
+                updateSplitters(panels[i], "horizontal");
+            }
+            else if(panels[i].className.includes("panel-vertical")){
+                updateSplitters(panels[i], "vertical");
             }
             
         }
