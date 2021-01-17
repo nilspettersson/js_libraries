@@ -8,7 +8,7 @@ let currentRight = null;
 
 window.onload = function(){
     let parent = document.getElementsByClassName("panel-horizontal")[0];
-    setPanels(parent);
+    setPanels(parent, "horizontal");
 }
 
 window.onresize = function(){
@@ -41,7 +41,7 @@ function updateCurrentSplitter(){
     currentSplitter.style.left = (rect.x - splitterWidth / 2) + "px";
 }
 
-
+/* gets the child panels but ony one layer deep */
 function getChildPanels(parent){
     var children = [];
     for (var i = 0; i < parent.childNodes.length; i++) {
@@ -53,21 +53,26 @@ function getChildPanels(parent){
     }
     return children;
 }
-
-function setPanels(parent){
-    parent.style = "display: flex; width: 100vw; height: 100vh; position:relative;"
-
+/*
+set the panels of all panels goes through all children of a parent and checks the type of the parent 
+parentType: "horizontal" or "vertical"
+*/
+function setPanels(parent, parentType){
+    parent.style.display = "flex";
+    parent.style.position = "relative";
+    
     removeOldSpliters(parent);
     
-    let horizontalPanels = getChildPanels(parent);
+    let panels = getChildPanels(parent);
 
-    if(horizontalPanels.length >= 2){
-        for(let i = 0; i < horizontalPanels.length; i++){
-            horizontalPanels[i].style.height = "100%"
-            horizontalPanels[i].style.width = 100 / horizontalPanels.length + "%";
+    if(panels.length >= 2 && parentType == "horizontal"){
+        for(let i = 0; i < panels.length; i++){
+            panels[i].style.height = "100%"
+            panels[i].style.width = 100 / panels.length + "%";
 
-            let rect = horizontalPanels[i].getBoundingClientRect();
+            let rect = panels[i].getBoundingClientRect();
 
+            //add splitters to panels.
             if(i > 0){
                 let splitter = document.createElement("div");
                 splitter.classList.add("panel-splitter");
@@ -75,8 +80,8 @@ function setPanels(parent){
                 splitter.style = "background:red;  width: " + splitterWidth + "px; height: 100%; position: absolute;" + 
                 "left: " + (rect.x - splitterWidth / 2) + "px; top: 0px;"
                 
-                let left = horizontalPanels[i - 1];
-                let right = horizontalPanels[i];
+                let left = panels[i - 1];
+                let right = panels[i];
                 splitter.onmousedown = function(){
                     currentLeft = left;
                     currentRight = right;
@@ -84,6 +89,10 @@ function setPanels(parent){
                 }
 
                 parent.append(splitter);
+            }
+
+            if(panels[i].className.includes("panel-horizontal")){
+                setPanels(panels[i], "horizontal");
             }
             
         }
