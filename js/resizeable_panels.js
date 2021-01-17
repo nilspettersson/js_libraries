@@ -131,7 +131,7 @@ function setPanels(parent, parentType){
                     currentSplitterType = "horizontal";
                 }
 
-                document.getElementsByClassName("panel")[0].append(splitter);
+                parent.append(splitter);
             }
 
             if(panels[i].className.includes("panel-horizontal")){
@@ -171,7 +171,7 @@ function setPanels(parent, parentType){
                     currentSplitterType = "vertical";
                 }
 
-                document.getElementsByClassName("panel")[0].append(splitter);
+                parent.append(splitter);
             }
 
             if(panels[i].className.includes("panel-horizontal")){
@@ -217,7 +217,7 @@ function updateSplitters(parent, parentType){
                     currentSplitter = splitter;
                 }
 
-                document.getElementsByClassName("panel")[0].append(splitter);
+                parent.append(splitter);
             }
 
             if(panels[i].className.includes("panel-horizontal")){
@@ -254,7 +254,7 @@ function updateSplitters(parent, parentType){
                     currentSplitterType = "vertical";
                 }
 
-                document.getElementsByClassName("panel")[0].append(splitter);
+                parent.append(splitter);
             }
 
             if(panels[i].className.includes("panel-horizontal")){
