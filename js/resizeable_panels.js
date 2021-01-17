@@ -1,6 +1,7 @@
 /* splitter global variables */
 let currentSplitter = null;
 let splitterWidth = 8;
+let currentSplitterType = "";
 
 /* panel global variables */
 let currentLeft = null;
@@ -29,7 +30,10 @@ window.onresize = function(){
 }
 
 window.onmousemove = function(e){
-    if(currentSplitter != null){
+    if(currentSplitter == null){
+        return;
+    }
+    if(currentSplitterType == "horizontal"){
         let rightRect = currentRight.getBoundingClientRect();
         let leftRect = currentLeft.getBoundingClientRect();
         let parentRect = currentParent.getBoundingClientRect();
@@ -40,6 +44,19 @@ window.onmousemove = function(e){
         
         currentRight.style.width = rightW + "%";
         currentLeft.style.width = leftW + "%";
+        updateCurrentSplitter();
+    }
+    else if(currentSplitterType == "vertical"){
+        let rightRect = currentRight.getBoundingClientRect();
+        let leftRect = currentLeft.getBoundingClientRect();
+        let parentRect = currentParent.getBoundingClientRect();
+        let maxHeight = Math.round(((rightRect.height + leftRect.height) / parentRect.height) * 100);
+
+        let leftW = ((e.y - leftRect.y) / parentRect.height) * 100;
+        let rightW = maxHeight - leftW;
+        
+        currentRight.style.height = rightW + "%";
+        currentLeft.style.height = leftW + "%";
         updateCurrentSplitter();
     }
 }
@@ -53,6 +70,7 @@ window.onmouseup = function(){
 function updateCurrentSplitter(){
     let rect = currentRight.getBoundingClientRect();
     currentSplitter.style.left = (rect.x - splitterWidth / 2) + "px";
+    currentSplitter.style.top = (rect.y - splitterWidth / 2) + "px";
 }
 
 //gets the children with class
@@ -103,6 +121,7 @@ function setPanels(parent, parentType){
                     currentRight = right;
                     currentParent = parent;
                     currentSplitter = splitter;
+                    currentSplitterType = "horizontal";
                 }
 
                 document.getElementsByClassName("panel")[0].append(splitter);
@@ -139,6 +158,7 @@ function setPanels(parent, parentType){
                     currentRight = right;
                     currentParent = parent;
                     currentSplitter = splitter;
+                    currentSplitterType = "vertical";
                 }
 
                 document.getElementsByClassName("panel")[0].append(splitter);
