@@ -27,7 +27,6 @@ window.onmousemove = function(e){
         currentLeft.style.width = leftW + "%";
         updateCurrentSplitter();
     }
-    
 }
 
 window.onmouseup = function(){
@@ -41,13 +40,25 @@ function updateCurrentSplitter(){
     currentSplitter.style.left = (rect.x - splitterWidth / 2) + "px";
 }
 
+
+function getChildPanels(parent){
+    var children = [];
+    for (var i = 0; i < parent.childNodes.length; i++) {
+        if (parent.childNodes[i].className == "panel-horizontal") {
+            children.push(parent.childNodes[i]);
+        }        
+    }
+    return children;
+}
+
 function setPanels(){
     let container = document.getElementsByClassName("panel-container")[0];
     container.style = "display: flex; width: 100vw; height: 100vh; position:relative;"
 
     removeOldSpliters(container);
     
-    let horizontalPanels = document.getElementsByClassName("panel-horizontal");
+    let horizontalPanels = container.getElementsByClassName("panel-horizontal");
+    console.log(getChildPanels(container));
 
     if(horizontalPanels.length >= 2){
         for(let i = 0; i < horizontalPanels.length; i++){
@@ -71,13 +82,45 @@ function setPanels(){
                     currentSplitter = splitter;
                 }
 
+                container.append(splitter);
+            }
+            
+        }
+    }
+
+
+    /*let VerticalPanels = document.getElementsByClassName("panel-vertical");
+
+    if(VerticalPanels.length >= 2){
+        for(let i = 0; i < VerticalPanels.length; i++){
+            VerticalPanels[i].style.width = "100%"
+            //VerticalPanels[i].style.height = 100 / VerticalPanels.length + "%";
+
+            let rect = VerticalPanels[i].getBoundingClientRect();
+
+            if(i > 0){
+                let splitter = document.createElement("div");
+                splitter.classList.add("panel-splitter");
+                
+                splitter.style = "background:red;  width: " + splitterWidth + "px; height: 100%; position: absolute;" + 
+                "left: " + (rect.x - splitterWidth / 2) + "px; top: 0px;"
+                
+                let left = VerticalPanels[i - 1];
+                let right = VerticalPanels[i];
+                splitter.onmousedown = function(){
+                    currentLeft = left;
+                    currentRight = right;
+                    currentSplitter = splitter;
+                }
+
 
                 container.append(splitter);
             }
             
 
         }
-    }
+    }*/
+
 }
 
 
