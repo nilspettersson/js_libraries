@@ -91,6 +91,7 @@ function setPanels(parent, parentType){
             if(i > 0){
                 let splitter = document.createElement("div");
                 splitter.classList.add("panel-splitter");
+                splitter.classList.add("splitter-horizontal");
                 
                 splitter.style = "background:red;  width: " + splitterWidth + "px; height: 100%; position: absolute;" + 
                 "left: " + (rect.x - splitterWidth / 2) + "px; top: 0px;"
@@ -125,9 +126,11 @@ function setPanels(parent, parentType){
             if(i > 0){
                 let splitter = document.createElement("div");
                 splitter.classList.add("panel-splitter");
+                splitter.classList.add("splitter-vertical");
                 
                 splitter.style = "background:red; height: " + splitterWidth + "px; width: 100%; position: absolute;" + 
-                "top: " + (rect.y - splitterWidth / 2) + "px; left: 0px;"
+                "top: " + (rect.y - splitterWidth / 2) + "px; left: 0px;" +
+                "panel-splitter:hover{ cursor: e-resize; }";
                 
                 let left = panels[i - 1];
                 let right = panels[i];
