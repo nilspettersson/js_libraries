@@ -106,11 +106,19 @@ function setPanels(parent, parentType){
 
     if(panels.length >= 2 && parentType == "horizontal"){
         parent.style.display = "flex";
+        let firstPanelOffset = 0;
         for(let i = 0; i < panels.length; i++){
             panels[i].style.height = "100%"
             panels[i].style.width = 100 / panels.length + "%";
 
             let rect = panels[i].getBoundingClientRect();
+
+            /*splitter position is relative to parent but bounding rect is relative to the top corner.
+            * So we get the offset using the first panel position.
+            */
+            if(i == 0){
+                firstPanelOffset = rect.y;
+            }
 
             //add splitters to panels.
             if(i > 0){
@@ -145,12 +153,20 @@ function setPanels(parent, parentType){
     }
 
     else if(panels.length >= 2 && parentType == "vertical"){
+        let firstPanelOffset = 0;
         for(let i = 0; i < panels.length; i++){
             panels[i].style.height = 100 / panels.length + "%";
             panels[i].style.width = "100%"
             
             let rect = panels[i].getBoundingClientRect();
 
+            /*splitter position is relative to parent but bounding rect is relative to the top corner.
+            * So we get the offset using the first panel position.
+            */
+            if(i == 0){
+                firstPanelOffset = rect.y;
+            }
+            
             //add splitters to panels.
             if(i > 0){
                 let splitter = document.createElement("div");
@@ -158,7 +174,7 @@ function setPanels(parent, parentType){
                 splitter.classList.add("splitter-vertical");
                 
                 splitter.style = "height: " + splitterWidth + "px; width: 100%; position: absolute;" + 
-                "top: " + (rect.y - splitterWidth / 2) + "px; left: 0px;" +
+                "top: " + (rect.y - firstPanelOffset - splitterWidth / 2) + "px; left: 0px;" +
                 "panel-splitter:hover{ cursor: e-resize; }";
                 
                 let left = panels[i - 1];
@@ -180,10 +196,8 @@ function setPanels(parent, parentType){
             else if(panels[i].className.includes("panel-vertical")){
                 setPanels(panels[i], "vertical");
             }
-            
         }
     }
-
 }
 
 
