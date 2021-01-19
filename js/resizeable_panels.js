@@ -33,6 +33,7 @@ window.onmousemove = function(e){
     if(currentSplitter == null){
         return;
     }
+    document.body.style.userSelect = "none";
     if(currentSplitterType == "horizontal"){
         let rightRect = currentRight.getBoundingClientRect();
         let leftRect = currentLeft.getBoundingClientRect();
@@ -44,6 +45,7 @@ window.onmousemove = function(e){
         
         currentRight.style.width = rightW + "%";
         currentLeft.style.width = leftW + "%";
+
         updateCurrentSplitter();
     }
     else if(currentSplitterType == "vertical"){
@@ -64,6 +66,7 @@ window.onmousemove = function(e){
 }
 
 window.onmouseup = function(){
+    document.body.style.userSelect = "initial";
     if(currentSplitter != null){
         currentSplitter = null;
     }
