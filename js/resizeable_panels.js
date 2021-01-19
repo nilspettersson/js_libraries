@@ -55,7 +55,7 @@ window.onmousemove = function(e){
         let leftW = ((e.y - leftRect.y) / parentRect.height) * 100;
         let rightW = maxHeight - leftW;
 
-        console.log(leftW + "  " + rightW + " " + (leftW + rightW));
+        console.log(leftRect.y);
         
         currentRight.style.height = rightW + "%";
         currentLeft.style.height = leftW + "%";
@@ -118,7 +118,7 @@ function setPanels(parent, parentType){
                 splitter.classList.add("panel-splitter");
                 splitter.classList.add("splitter-horizontal");
                 
-                splitter.style = "background:red;  width: " + splitterWidth + "px; height: 100%; position: absolute;" + 
+                splitter.style = "width: " + splitterWidth + "px; height: 100%; position: absolute;" + 
                 "left: " + (rect.x - splitterWidth / 2) + "px; top: 0px;"
                 
                 let left = panels[i - 1];
@@ -157,7 +157,7 @@ function setPanels(parent, parentType){
                 splitter.classList.add("panel-splitter");
                 splitter.classList.add("splitter-vertical");
                 
-                splitter.style = "background:red; height: " + splitterWidth + "px; width: 100%; position: absolute;" + 
+                splitter.style = "height: " + splitterWidth + "px; width: 100%; position: absolute;" + 
                 "top: " + (rect.y - splitterWidth / 2) + "px; left: 0px;" +
                 "panel-splitter:hover{ cursor: e-resize; }";
                 
@@ -184,8 +184,6 @@ function setPanels(parent, parentType){
         }
     }
 
-
-
 }
 
 
@@ -205,7 +203,7 @@ function updateSplitters(parent, parentType){
                 let splitter = document.createElement("div");
                 splitter.classList.add("panel-splitter");
                 
-                splitter.style = "background:red;  width: " + splitterWidth + "px; height: 100%; position: absolute;" + 
+                splitter.style = "width: " + splitterWidth + "px; height: 100%; position: absolute;" + 
                 "left: " + (rect.x - splitterWidth / 2) + "px; top: 0px;"
                 
                 let left = panels[i - 1];
@@ -240,7 +238,7 @@ function updateSplitters(parent, parentType){
                 splitter.classList.add("panel-splitter");
                 splitter.classList.add("splitter-vertical");
                 
-                splitter.style = "background:red; height: " + splitterWidth + "px; width: 100%; position: absolute;" + 
+                splitter.style = "height: " + splitterWidth + "px; width: 100%; position: absolute;" + 
                 "top: " + (rect.y - splitterWidth / 2) + "px; left: 0px;" +
                 "panel-splitter:hover{ cursor: e-resize; }";
                 
@@ -267,7 +265,6 @@ function updateSplitters(parent, parentType){
         }
     }
 }
-
 
 function removeOldSpliters(parent){
     let oldSplitters = getChildPanels(parent, "panel-splitter");

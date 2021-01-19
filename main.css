@@ -1,6 +1,8 @@
 *{
     padding: 0px;
     margin: 0px;
+    box-sizing: border-box;
+    font-family: 'Open Sans', sans-serif;
 }
 #container{
     width: 100vw;
@@ -16,9 +18,21 @@
     cursor: n-resize;
 }
 
-.panel-vertical{
-    background: green;
+
+.panel{
+    outline: 1px solid rgba(0, 0, 0, 0.466);
 }
-.panel-horizontal{
-    background: hotpink;
+
+.content{
+    padding: 12px;
+}
+
+.menu{
+    background: rgb(26, 26, 26);
+    padding: 4px 10px;
+}
+.menu-item{
+    color: white;
+    padding: 4px 10px;
+    text-decoration: none;
 }
