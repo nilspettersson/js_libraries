@@ -209,19 +209,26 @@ function updateSplitters(parent, parentType){
     removeOldSpliters(parent);
 
     let panels = getChildPanels(parent, "panel");
-
+    let firstPanelOffset = 0;
     if(panels.length >= 2 && parentType == "horizontal"){
         for(let i = 0; i < panels.length; i++){
-
             let rect = panels[i].getBoundingClientRect();
+
+            /*splitter position is relative to parent but bounding rect is relative to the top corner.
+            * So we get the offset using the first panel position.
+            */
+            if(i == 0){
+                firstPanelOffset = rect.x;
+            }
 
             //add splitters to panels.
             if(i > 0){
                 let splitter = document.createElement("div");
                 splitter.classList.add("panel-splitter");
+                splitter.classList.add("splitter-horizontal");
                 
                 splitter.style = "width: " + splitterWidth + "px; height: 100%; position: absolute;" + 
-                "left: " + (rect.x - splitterWidth / 2) + "px; top: 0px;"
+                "left: " + (rect.x - firstPanelOffset - splitterWidth / 2) + "px; top: 0px;"
                 
                 let left = panels[i - 1];
                 let right = panels[i];
@@ -246,8 +253,16 @@ function updateSplitters(parent, parentType){
     }
 
     else if(panels.length >= 2 && parentType == "vertical"){
+        firstPanelOffset = 0;
         for(let i = 0; i < panels.length; i++){
             let rect = panels[i].getBoundingClientRect();
+
+            /*splitter position is relative to parent but bounding rect is relative to the top corner.
+            * So we get the offset using the first panel position.
+            */
+            if(i == 0){
+                firstPanelOffset = rect.y;
+            }
 
             //add splitters to panels.
             if(i > 0){
@@ -256,7 +271,7 @@ function updateSplitters(parent, parentType){
                 splitter.classList.add("splitter-vertical");
                 
                 splitter.style = "height: " + splitterWidth + "px; width: 100%; position: absolute;" + 
-                "top: " + (rect.y - splitterWidth / 2) + "px; left: 0px;" +
+                "top: " + (rect.y - firstPanelOffset - splitterWidth / 2) + "px; left: 0px;" +
                 "panel-splitter:hover{ cursor: e-resize; }";
                 
                 let left = panels[i - 1];
