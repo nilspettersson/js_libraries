@@ -9,6 +9,24 @@ let currentRight = null;
 let currentParent = null;
 
 window.onload = function(){
+
+    // Create css for splitter.
+    var style = document.createElement('style');
+    style.innerHTML =
+        '.splitter-horizontal:hover{' +
+            'cursor: e-resize;' +
+        '}' +
+        '.splitter-vertical:hover{' +
+            'cursor: n-resize;' +
+        '}';
+
+    // Get the first script tag
+    var ref = document.querySelector('script');
+
+    // Insert our new styles before the first script tag
+    ref.parentNode.insertBefore(style, ref);
+
+
     let parent = document.getElementsByClassName("panel")[0];
     if(parent.className.includes("panel-horizontal")){
         setPanels(parent, "horizontal");
