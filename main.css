@@ -16,7 +16,13 @@ a{
     background: rgb(50, 60, 205);
     padding: 8px 8px;
     border-radius: 3px;
-    box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.479);
+}
+a:hover{
+    transition: 100ms;
+    display: inline-block;
+    text-decoration: none;
+    color: white;
+    background: rgb(40, 49, 170);
 }
 
 .container{
