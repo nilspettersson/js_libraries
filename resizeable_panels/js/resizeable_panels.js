@@ -8,8 +8,8 @@ let currentLeft = null;
 let currentRight = null;
 let currentParent = null;
 
-window.addEventListener('load', (event) => {
 
+function initPanels(){
     // Create css for splitter.
     var style = document.createElement('style');
     style.innerHTML =
@@ -34,6 +34,10 @@ window.addEventListener('load', (event) => {
     else if(parent.className.includes("panel-vertical")){
         setPanels(parent, "vertical");
     }
+}
+
+window.addEventListener('load', (event) => {
+    initPanels();
 });
 
 window.onresize = function(){
@@ -133,6 +137,8 @@ set the panels of all panels goes through all children of a parent and checks th
 parentType: horizontal or vertical
 */
 function setPanels(parent, parentType){
+    parent.style.display = "";
+
     parent.style.position = "relative";
 
     removeOldSpliters(parent);
