@@ -1,0 +1,29 @@
+*{
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+h1{
+    color: rgb(56, 56, 56);
+}
+
+a{
+    display: inline-block;
+    text-decoration: none;
+    color: white;
+    background: rgb(50, 60, 205);
+    padding: 8px 8px;
+    border-radius: 3px;
+    box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.479);
+}
+
+.container{
+    padding: 0px 20px;
+    width: 500px;
+}
+
+.container .header{
+    margin: 20px 0px;
+}
