@@ -8,7 +8,7 @@ let currentLeft = null;
 let currentRight = null;
 let currentParent = null;
 
-window.onload = function(){
+window.addEventListener('load', (event) => {
 
     // Create css for splitter.
     var style = document.createElement('style');
@@ -34,7 +34,7 @@ window.onload = function(){
     else if(parent.className.includes("panel-vertical")){
         setPanels(parent, "vertical");
     }
-}
+});
 
 window.onresize = function(){
     let parent = document.getElementsByClassName("panel")[0];
