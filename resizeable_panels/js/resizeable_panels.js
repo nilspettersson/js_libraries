@@ -64,7 +64,13 @@ window.onmousemove = function(e){
         currentRight.style.width = rightW + "%";
         currentLeft.style.width = leftW + "%";
 
-        updateCurrentSplitter();
+        if(currentParent.className.includes("panel-horizontal")){
+            updateSplitters(currentParent, "horizontal");
+        }
+        else if(currentParent.className.includes("panel-vertical")){
+            updateSplitters(currentParent, "vertical");
+        }
+        //updateCurrentSplitter();
     }
     else if(currentSplitterType == "vertical"){
         let rightRect = currentRight.getBoundingClientRect();
@@ -78,7 +84,14 @@ window.onmousemove = function(e){
         
         currentRight.style.height = rightW + "%";
         currentLeft.style.height = leftW + "%";
-        updateCurrentSplitter();
+
+        if(currentParent.className.includes("panel-horizontal")){
+            updateSplitters(currentParent, "horizontal");
+        }
+        else if(currentParent.className.includes("panel-vertical")){
+            updateSplitters(currentParent, "vertical");
+        }
+        //updateCurrentSplitter();
     }
     
 }
@@ -90,6 +103,7 @@ window.onmouseup = function(){
     }
 }
 
+//not working with offsets.
 function updateCurrentSplitter(){
     let rect = currentRight.getBoundingClientRect();
     if(currentSplitterType == "horizontal"){
@@ -153,7 +167,8 @@ function setPanels(parent, parentType){
             * So we get the offset using the first panel position.
             */
             if(i == 0){
-                firstPanelOffset = rect.y;
+                firstPanelOffset = rect.x;
+                console.log(rect.x);
             }
 
             //add splitters to panels.
@@ -163,7 +178,7 @@ function setPanels(parent, parentType){
                 splitter.classList.add("splitter-horizontal");
                 
                 splitter.style = "width: " + splitterWidth + "px; height: 100%; position: absolute;" + 
-                "left: " + (rect.x - splitterWidth / 2) + "px; top: 0px;"
+                "left: " + (rect.x - firstPanelOffset - splitterWidth / 2) + "px; top: 0px;"
                 
                 let left = panels[i - 1];
                 let right = panels[i];
