@@ -128,6 +128,7 @@ function setPanels(parent, parentType){
     if(panels.length >= 2 && parentType == "horizontal"){
         parent.style.display = "flex";
         let firstPanelOffset = 0;
+
         let noneDataPanels = panels.length;
         let maxWidth = 100;
         for(let j = 0; j < panels.length; j++){
@@ -136,6 +137,7 @@ function setPanels(parent, parentType){
                 noneDataPanels--;
             }
         }
+
         for(let i = 0; i < panels.length; i++){
             panels[i].style.height = "100%";
             if(panels[i].getAttribute("data-panel-width") != null){
@@ -188,9 +190,25 @@ function setPanels(parent, parentType){
 
     else if(panels.length >= 2 && parentType == "vertical"){
         let firstPanelOffset = 0;
+
+        let noneDataPanels = panels.length;
+        let maxHeight = 100;
+        for(let j = 0; j < panels.length; j++){
+            if(panels[j].getAttribute("data-panel-width") != null){
+                maxHeight -= parseInt(panels[j].getAttribute("data-panel-width"));
+                noneDataPanels--;
+            }
+        }
+
         for(let i = 0; i < panels.length; i++){
-            panels[i].style.height = 100 / panels.length + "%";
-            panels[i].style.width = "100%"
+            panels[i].style.width = "100%";
+
+            if(panels[i].getAttribute("data-panel-width") != null){
+                panels[i].style.height = panels[i].getAttribute("data-panel-width") + "%";
+            }
+            else{
+                panels[i].style.height = maxHeight / noneDataPanels + "%";
+            }
             
             let rect = panels[i].getBoundingClientRect();
 
