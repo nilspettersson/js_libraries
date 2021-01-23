@@ -13,11 +13,18 @@
 }
 
 .panel{
-    outline: 1px solid rgba(0, 0, 0, 0.466);
+    outline: 1px solid rgba(0, 0, 0, 0.055);
+}
+
+.panel-light{
+    background: rgb(63, 63, 63);
 }
 
 .content{
+    background: rgb(41, 41, 41);
+    height: 100%;
     padding: 12px;
+    color: white;
 }
 
 .menu{
