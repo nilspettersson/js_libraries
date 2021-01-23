@@ -75,12 +75,12 @@ window.onmousemove = function(e){
         let leftW = ((e.y - leftRect.y) / parentRect.height) * 100;
         let rightW = maxHeight - leftW;
 
-        console.log(leftRect.y);
         
         currentRight.style.height = rightW + "%";
         currentLeft.style.height = leftW + "%";
         updateCurrentSplitter();
     }
+    
 }
 
 window.onmouseup = function(){
@@ -286,6 +286,7 @@ function updateSplitters(parent, parentType){
                     currentRight = right;
                     currentParent = parent;
                     currentSplitter = splitter;
+                    currentSplitterType = "horizontal";
                 }
 
                 parent.append(splitter);
