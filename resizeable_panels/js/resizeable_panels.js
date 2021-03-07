@@ -53,6 +53,7 @@ window.onresize = function(){
 
 window.onmousemove = function(e){
     if(currentSplitter == null){
+        document.body.style.cursor = "auto";
         return;
     }
     document.body.style.userSelect = "none";
@@ -60,7 +61,7 @@ window.onmousemove = function(e){
         let rightRect = currentRight.getBoundingClientRect();
         let leftRect = currentLeft.getBoundingClientRect();
         let parentRect = currentParent.getBoundingClientRect();
-        let maxWidth = /*Math.round*/(((rightRect.width + leftRect.width) / parentRect.width) * 100);
+        let maxWidth = (((rightRect.width + leftRect.width) / parentRect.width) * 100);
 
         let leftW = ((e.x - leftRect.x) / parentRect.width) * 100;
         let rightW = maxWidth - leftW;
@@ -74,7 +75,7 @@ window.onmousemove = function(e){
         else if(currentParent.className.includes("panel-vertical")){
             updateSplitters(currentParent, "vertical");
         }
-        //updateCurrentSplitter();
+        document.body.style.cursor = "e-resize";
     }
     else if(currentSplitterType == "vertical"){
         let rightRect = currentRight.getBoundingClientRect();
@@ -95,9 +96,8 @@ window.onmousemove = function(e){
         else if(currentParent.className.includes("panel-vertical")){
             updateSplitters(currentParent, "vertical");
         }
-        //updateCurrentSplitter();
+        document.body.style.cursor = "n-resize";
     }
-    
 }
 
 window.onmouseup = function(){
@@ -105,18 +105,6 @@ window.onmouseup = function(){
     if(currentSplitter != null){
         currentSplitter = null;
     }
-}
-
-//not working with offsets.
-function updateCurrentSplitter(){
-    let rect = currentRight.getBoundingClientRect();
-    if(currentSplitterType == "horizontal"){
-        currentSplitter.style.left = (rect.x - splitterWidth / 2) + "px";
-    }
-    else if(currentSplitterType == "vertical"){
-        currentSplitter.style.top = (rect.y - splitterWidth / 2) + "px";
-    }
-    
 }
 
 //gets the children with class
