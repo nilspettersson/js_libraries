@@ -65,10 +65,25 @@ window.onmousemove = function(e){
 
         let leftW = ((e.x - leftRect.x) / parentRect.width) * 100;
         let rightW = maxWidth - leftW;
-        //add data-min-width
-        if(leftW <= 0 || rightW <= 0) {
-            return
+        
+        if(leftW <= getMinPanelWidth(currentLeft)) {
+            leftW = getMinPanelWidth(currentLeft);
+            rightW = maxHeight - leftW;
         }
+        else if(rightW <= getMinPanelWidth(currentRight)) {
+            rightW = getMinPanelWidth(currentRight);
+            leftW = maxHeight - rightW;
+        }
+
+        if(leftW >= getMaxPanelWidth(currentLeft)) {
+            leftW = getMaxPanelWidth(currentLeft);
+            rightW = maxHeight - leftW;
+        }
+        else if(rightW >= getMaxPanelWidth(currentRight)) {
+            rightW = getMaxPanelWidth(currentRight);
+            leftW = maxHeight - rightW;//start workign here
+        }
+
         currentRight.style.width = rightW + "%";
         currentLeft.style.width = leftW + "%";
 
@@ -88,14 +103,24 @@ window.onmousemove = function(e){
 
         let leftW = ((e.y - leftRect.y) / parentRect.height) * 100;
         let rightW = maxHeight - leftW;
-        //add data-min-width
-        if(leftW <= 0) {
-            leftW = 0;
+        
+
+        if(leftW <= getMinPanelWidth(currentLeft)) {
+            leftW = getMinPanelWidth(currentLeft);
             rightW = maxHeight - leftW;
         }
-        else if(rightW <= 0) {
-            rightW = 0;
+        else if(rightW <= getMinPanelWidth(currentRight)) {
+            rightW = getMinPanelWidth(currentRight);
             leftW = maxHeight - rightW;
+        }
+
+        if(leftW >= getMaxPanelWidth(currentLeft)) {
+            leftW = getMaxPanelWidth(currentLeft);
+            rightW = maxHeight - leftW;
+        }
+        else if(rightW >= getMaxPanelWidth(currentRight)) {
+            rightW = getMaxPanelWidth(currentRight);
+            leftW = maxHeight - rightW;//start workign here
         }
         
         currentRight.style.height = rightW + "%";
@@ -108,6 +133,24 @@ window.onmousemove = function(e){
             updateSplitters(currentParent, "vertical");
         }
         document.body.style.cursor = "n-resize";
+    }
+}
+
+function getMinPanelWidth(panel){
+    if(panel.getAttribute("data-panel-min-width") != null){
+        return parseInt(panel.getAttribute("data-panel-min-width"));
+    }
+    else {
+        return 0;
+    }
+}
+
+function getMaxPanelWidth(panel){
+    if(panel.getAttribute("data-panel-min-width") != null){
+        return parseInt(panel.getAttribute("data-panel-max-width"));
+    }
+    else {
+        return 100;
     }
 }
 
