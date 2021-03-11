@@ -9,7 +9,7 @@ let currentRight = null;
 let currentParent = null;
 
 
-function initPanels(){
+function initPanels() {
     // Create css for splitter.
     var style = document.createElement('style');
     style.innerHTML =
@@ -28,10 +28,10 @@ function initPanels(){
 
 
     let parent = document.getElementsByClassName("panel")[0];
-    if(parent.className.includes("panel-horizontal")){
+    if(parent.className.includes("panel-horizontal")) {
         setPanels(parent, "horizontal");
     }
-    else if(parent.className.includes("panel-vertical")){
+    else if(parent.className.includes("panel-vertical")) {
         setPanels(parent, "vertical");
     }
 }
@@ -42,10 +42,10 @@ window.addEventListener('load', (event) => {
 
 window.onresize = function(){
     let parent = document.getElementsByClassName("panel")[0];
-    if(parent.className.includes("panel-horizontal")){
+    if(parent.className.includes("panel-horizontal")) {
         updateSplitters(parent, "horizontal");
     }
-    else if(parent.className.includes("panel-vertical")){
+    else if(parent.className.includes("panel-vertical")) {
         updateSplitters(parent, "vertical");
     }
     
@@ -75,14 +75,13 @@ window.onmousemove = function(e) {
         document.body.style.cursor = "e-resize";
     }
     else if(currentSplitterType == "vertical"){
-        let maxHeight = (((rightRect.height + leftRect.height) / parentRect.height) * 100);
-        let leftW = ((e.y - leftRect.y) / parentRect.height) * 100;
+        let maxHeight = (((rightRect.height + leftRect.height) / parentRect.height) * 100.0);
+        let leftW = ((e.y - leftRect.y) / parentRect.height) * 100.0;
         let rightW = maxHeight - leftW;
         
         let result = calculateWidth(leftW, rightW, maxHeight);
         leftW = result[0];
         rightW = result[1];
-
         currentRight.style.height = rightW + "%";
         currentLeft.style.height = leftW + "%";
         document.body.style.cursor = "n-resize";
@@ -158,7 +157,7 @@ function getChildPanels(parent, className) {
 set the panels of all panels goes through all children of a parent and checks the type of the parent 
 parentType: horizontal or vertical
 */
-function setPanels(parent, parentType){
+function setPanels(parent, parentType) {
     parent.style.display = "";
 
     parent.style.position = "relative";
@@ -167,20 +166,20 @@ function setPanels(parent, parentType){
     
     let panels = getChildPanels(parent, "panel");
 
-    if(panels.length >= 2 && parentType == "horizontal"){
+    if(panels.length >= 2 && parentType == "horizontal") {
         parent.style.display = "flex";
         let firstPanelOffset = 0;
 
         let noneDataPanels = panels.length;
         let maxWidth = 100;
-        for(let j = 0; j < panels.length; j++){
-            if(panels[j].getAttribute("data-panel-width") != null){
+        for(let j = 0; j < panels.length; j++) {
+            if(panels[j].getAttribute("data-panel-width") != null) {
                 maxWidth -= parseInt(panels[j].getAttribute("data-panel-width"));
                 noneDataPanels--;
             }
         }
 
-        for(let i = 0; i < panels.length; i++){
+        for(let i = 0; i < panels.length; i++) {
             panels[i].style.height = "100%";
             if(panels[i].getAttribute("data-panel-width") != null){
                 panels[i].style.width = panels[i].getAttribute("data-panel-width") + "%";
@@ -194,13 +193,13 @@ function setPanels(parent, parentType){
             /*splitter position is relative to parent but bounding rect is relative to the top corner.
             * So we get the offset using the first panel position.
             */
-            if(i == 0){
+            if(i == 0) {
                 firstPanelOffset = rect.x;
                 console.log(rect.x);
             }
 
             //add splitters to panels.
-            if(i > 0){
+            if(i > 0) {
                 let splitter = document.createElement("div");
                 splitter.classList.add("panel-splitter");
                 splitter.classList.add("splitter-horizontal");
@@ -210,7 +209,7 @@ function setPanels(parent, parentType){
                 
                 let left = panels[i - 1];
                 let right = panels[i];
-                splitter.onmousedown = function(){
+                splitter.onmousedown = function() {
                     currentLeft = left;
                     currentRight = right;
                     currentParent = parent;
@@ -221,32 +220,32 @@ function setPanels(parent, parentType){
                 parent.append(splitter);
             }
 
-            if(panels[i].className.includes("panel-horizontal")){
+            if(panels[i].className.includes("panel-horizontal")) {
                 setPanels(panels[i], "horizontal");
             }
-            else if(panels[i].className.includes("panel-vertical")){
+            else if(panels[i].className.includes("panel-vertical")) {
                 setPanels(panels[i], "vertical");
             }
             
         }
     }
 
-    else if(panels.length >= 2 && parentType == "vertical"){
+    else if(panels.length >= 2 && parentType == "vertical") {
         let firstPanelOffset = 0;
 
         let noneDataPanels = panels.length;
         let maxHeight = 100;
         for(let j = 0; j < panels.length; j++){
-            if(panels[j].getAttribute("data-panel-width") != null){
+            if(panels[j].getAttribute("data-panel-width") != null) {
                 maxHeight -= parseInt(panels[j].getAttribute("data-panel-width"));
                 noneDataPanels--;
             }
         }
 
-        for(let i = 0; i < panels.length; i++){
+        for(let i = 0; i < panels.length; i++) {
             panels[i].style.width = "100%";
 
-            if(panels[i].getAttribute("data-panel-width") != null){
+            if(panels[i].getAttribute("data-panel-width") != null) {
                 panels[i].style.height = panels[i].getAttribute("data-panel-width") + "%";
             }
             else{
@@ -258,12 +257,12 @@ function setPanels(parent, parentType){
             /*splitter position is relative to parent but bounding rect is relative to the top corner.
             * So we get the offset using the first panel position.
             */
-            if(i == 0){
+            if(i == 0) {
                 firstPanelOffset = rect.y;
             }
             
             //add splitters to panels.
-            if(i > 0){
+            if(i > 0) {
                 let splitter = document.createElement("div");
                 splitter.classList.add("panel-splitter");
                 splitter.classList.add("splitter-vertical");
@@ -285,10 +284,10 @@ function setPanels(parent, parentType){
                 parent.append(splitter);
             }
 
-            if(panels[i].className.includes("panel-horizontal")){
+            if(panels[i].className.includes("panel-horizontal")) {
                 setPanels(panels[i], "horizontal");
             }
-            else if(panels[i].className.includes("panel-vertical")){
+            else if(panels[i].className.includes("panel-vertical")) {
                 setPanels(panels[i], "vertical");
             }
         }
@@ -297,24 +296,24 @@ function setPanels(parent, parentType){
 
 
 /*updates panel splitter on window resize*/
-function updateSplitters(parent, parentType){
+function updateSplitters(parent, parentType) {
     removeOldSpliters(parent);
 
     let panels = getChildPanels(parent, "panel");
     let firstPanelOffset = 0;
-    if(panels.length >= 2 && parentType == "horizontal"){
-        for(let i = 0; i < panels.length; i++){
+    if(panels.length >= 2 && parentType == "horizontal") {
+        for(let i = 0; i < panels.length; i++) {
             let rect = panels[i].getBoundingClientRect();
 
             /*splitter position is relative to parent but bounding rect is relative to the top corner.
             * So we get the offset using the first panel position.
             */
-            if(i == 0){
+            if(i == 0) {
                 firstPanelOffset = rect.x;
             }
 
             //add splitters to panels.
-            if(i > 0){
+            if(i > 0) {
                 let splitter = document.createElement("div");
                 splitter.classList.add("panel-splitter");
                 splitter.classList.add("splitter-horizontal");
@@ -335,19 +334,19 @@ function updateSplitters(parent, parentType){
                 parent.append(splitter);
             }
 
-            if(panels[i].className.includes("panel-horizontal")){
+            if(panels[i].className.includes("panel-horizontal")) {
                 updateSplitters(panels[i], "horizontal");
             }
-            else if(panels[i].className.includes("panel-vertical")){
+            else if(panels[i].className.includes("panel-vertical")) {
                 updateSplitters(panels[i], "vertical");
             }
             
         }
     }
 
-    else if(panels.length >= 2 && parentType == "vertical"){
+    else if(panels.length >= 2 && parentType == "vertical") {
         firstPanelOffset = 0;
-        for(let i = 0; i < panels.length; i++){
+        for(let i = 0; i < panels.length; i++) {
             let rect = panels[i].getBoundingClientRect();
 
             /*splitter position is relative to parent but bounding rect is relative to the top corner.
@@ -380,10 +379,10 @@ function updateSplitters(parent, parentType){
                 parent.append(splitter);
             }
 
-            if(panels[i].className.includes("panel-horizontal")){
+            if(panels[i].className.includes("panel-horizontal")) {
                 updateSplitters(panels[i], "horizontal");
             }
-            else if(panels[i].className.includes("panel-vertical")){
+            else if(panels[i].className.includes("panel-vertical")) {
                 updateSplitters(panels[i], "vertical");
             }
             
@@ -391,9 +390,9 @@ function updateSplitters(parent, parentType){
     }
 }
 
-function removeOldSpliters(parent){
+function removeOldSpliters(parent) {
     let oldSplitters = getChildPanels(parent, "panel-splitter");
-    for(let i = oldSplitters.length - 1; i >= 0; i--){
+    for(let i = oldSplitters.length - 1; i >= 0; i--) {
         parent.removeChild(oldSplitters[i]);
     }
 }
