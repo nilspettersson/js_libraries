@@ -66,7 +66,7 @@ window.onmousemove = function(e) {
         let leftW = ((e.x - leftRect.x) / parentRect.width) * 100;
         let rightW = maxWidth - leftW;
         
-        let result = calculateWidth(leftW, rightW, maxHeight);
+        let result = calculateWidth(leftW, rightW, maxWidth);
         leftW = result[0];
         rightW = result[1];
 
@@ -94,23 +94,23 @@ window.onmousemove = function(e) {
     }
 }
 
-function calculateWidth(leftW, rightW, maxHeight) {
+function calculateWidth(leftW, rightW, max) {
     if(leftW <= getMinPanelWidth(currentLeft)) {
         leftW = getMinPanelWidth(currentLeft);
-        rightW = maxHeight - leftW;
+        rightW = max - leftW;
     }
     else if(rightW <= getMinPanelWidth(currentRight)) {
         rightW = getMinPanelWidth(currentRight);
-        leftW = maxHeight - rightW;
+        leftW = max - rightW;
     }
 
     if(leftW >= getMaxPanelWidth(currentLeft)) {
         leftW = getMaxPanelWidth(currentLeft);
-        rightW = maxHeight - leftW;
+        rightW = max - leftW;
     }
     else if(rightW >= getMaxPanelWidth(currentRight)) {
         rightW = getMaxPanelWidth(currentRight);
-        leftW = maxHeight - rightW;
+        leftW = max - rightW;
     }
     return Array(leftW, rightW);
 }
