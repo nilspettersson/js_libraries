@@ -65,7 +65,10 @@ window.onmousemove = function(e){
 
         let leftW = ((e.x - leftRect.x) / parentRect.width) * 100;
         let rightW = maxWidth - leftW;
-        
+        //add data-min-width
+        if(leftW <= 0 || rightW <= 0) {
+            return
+        }
         currentRight.style.width = rightW + "%";
         currentLeft.style.width = leftW + "%";
 
@@ -81,11 +84,19 @@ window.onmousemove = function(e){
         let rightRect = currentRight.getBoundingClientRect();
         let leftRect = currentLeft.getBoundingClientRect();
         let parentRect = currentParent.getBoundingClientRect();
-        let maxHeight = /*Math.round*/(((rightRect.height + leftRect.height) / parentRect.height) * 100);
+        let maxHeight = (((rightRect.height + leftRect.height) / parentRect.height) * 100);
 
         let leftW = ((e.y - leftRect.y) / parentRect.height) * 100;
         let rightW = maxHeight - leftW;
-
+        //add data-min-width
+        if(leftW <= 0) {
+            leftW = 0;
+            rightW = maxHeight - leftW;
+        }
+        else if(rightW <= 0) {
+            rightW = 0;
+            leftW = maxHeight - rightW;
+        }
         
         currentRight.style.height = rightW + "%";
         currentLeft.style.height = leftW + "%";
