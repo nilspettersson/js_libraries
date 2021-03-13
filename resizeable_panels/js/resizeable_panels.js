@@ -140,12 +140,16 @@ window.onmouseup = function() {
     }
 }
 
-//gets the children with class
+function isHidden(el) {
+    return (el.offsetParent === null)
+}
+
+//gets the children with class that are not hidden.
 function getChildPanels(parent, className) {
     var children = [];
     for (var i = 0; i < parent.childNodes.length; i++) {
         if(parent.childNodes[i].nodeType == Node.ELEMENT_NODE){
-            if (parent.childNodes[i].className.includes(className)) {
+            if (parent.childNodes[i].className.includes(className) && !isHidden(parent.childNodes[i])) {
                 children.push(parent.childNodes[i]);
             }  
         }      

@@ -36,3 +36,7 @@
     padding: 4px 10px;
     text-decoration: none;
 }
+
+.hidden {
+    display: none;
+}
